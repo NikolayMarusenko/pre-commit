@@ -12,3 +12,11 @@
   entry: hooks/helmlint.sh
   language: script
   files: \.((ya?ml)|(tpl))$
+  
+  
+- id: helmfilelint
+  name: helmfilelint
+  description: Run helmfile lint, a linter for helmfile
+  entry: hooks/helmfilelint.sh
+  language: script
+  files: \.((ya?ml)|(tpl))$
