@@ -68,7 +68,7 @@ chart_path() {
   local -r changed_file_abspath="$(realpath "$changed_file")"
   local -r changed_file_dir="$(dirname "$changed_file_abspath")"
 
-  debug "Checking directory $changed_file_abspath and $changed_file_dir for Chart.yaml"
+  debug "Checking directory $changed_file_abspath and $changed_file_dir for helmfile.yaml"
 
   # Base case: we have walked to the top of dir tree
   if [[ "$changed_file_abspath" == "$cwd_abspath" ]]; then
@@ -78,21 +78,21 @@ chart_path() {
   fi
 
   # The changed file is itself the helm chart indicator, Chart.yaml
-  if [[ "$(basename "$changed_file_abspath")" == "Chart.yaml" ]]; then
+  if [[ "$(basename "$changed_file_abspath")" == "helmfile.yaml" ]]; then
     debug "Chart path found: $changed_file_dir"
     echo "$changed_file_dir"
     return 0
   fi
 
   # The changed_file is the directory containing the helm chart package file
-  if [[ -f "$changed_file_abspath/Chart.yaml" ]]; then
+  if [[ -f "$changed_file_abspath/helmfile.yaml" ]]; then
     debug "Chart path found: $changed_file_abspath"
     echo "$changed_file_abspath"
     return 0
   fi
 
   # The directory of changed_file is the directory containing the helm chart package file
-  if [[ -f "$changed_file_dir/Chart.yaml" ]]; then
+  if [[ -f "$changed_file_dir/helmfile.yaml" ]]; then
     debug "Chart path found: $changed_file_dir"
     echo "$changed_file_dir"
     return 0
