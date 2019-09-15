@@ -123,7 +123,7 @@ for file in "$@"; do
     if contains_element "$file_chart_path" "${seen_chart_paths[@]}"; then
       debug "Already linted $file_chart_path"
     elif [[ -z "$linter_values_arg" ]]; then
-      helmfile -f "$file_chart_path" lint
+      helmfile -f "$file_chart_path"/helmfile.yaml lint
       seen_chart_paths+=( "$file_chart_path" )
     else
       # Combine both linter_values.yaml and values.yaml
