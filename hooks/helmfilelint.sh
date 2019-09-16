@@ -2,35 +2,6 @@
 
 set -e
 
-# Run helm lint on the chart path.
-# A typical helm chart directory structure looks as follows:
-#
-# └── root
-#     ├── README.md
-#     ├── Chart.yaml
-#     ├── charts
-#     │   └── postgres-9.5.6.tar.gz
-#     └── templates
-#         ├── deployment.yaml
-#         ├── service.yaml
-#         └── _helpers.tpl
-#
-# The `Chart.yaml` file is metadata that helm uses to index the chart, and is added to the release info. It includes things
-# like `name`, `version`, and `maintainers`.
-# The `charts` directory are subcharts / dependencies that are deployed with the chart.
-# The `templates` directory is what contains the go templates to render the Kubernetes resource yaml. Also includes
-# helper template definitions (suffix `.tpl`).
-#
-# Any time files in `templates` or `charts` changes, we should run `helm lint`. `helm lint` can only be run on the root
-# path of a chart, so this pre-commit hook will take the changed files and resolve it to the helm chart path. The helm
-# chart path is determined by a heuristic: it is the directory containing the `Chart.yaml` file.
-#
-# Note that pre-commit will only feed this the files that changed in the commit, so we can't do the filtering at the
-# hook setting level (e.g `files: Chart.yaml` will not work if no changes are made in the Chart.yaml file).
-
-# OSX GUI apps do not pick up environment variables the same way as Terminal apps and there are no easy solutions,
-# especially as Apple changes the GUI app behavior every release (see https://stackoverflow.com/q/135688/483528). As a
-# workaround to allow GitHub Desktop to work, add this (hopefully harmless) setting here.
 export PATH=$PATH:/usr/local/bin
 
 # Take the current working directory to know when to stop walking up the tree
@@ -77,7 +48,7 @@ chart_path() {
     return 0
   fi
 
-  # The changed file is itself the helm chart indicator, Chart.yaml
+  # The changed file is itself the helm chart indicator, helmfile.yaml
   if [[ "$(basename "$changed_file_abspath")" == "helmfile.yaml" ]]; then
     debug "Chart path found: $changed_file_dir"
     echo "$changed_file_dir"
