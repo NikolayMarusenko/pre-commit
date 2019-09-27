@@ -1,22 +1,7 @@
 # This configuration file allows our pre-commit hooks to be used with pre-commit: http://pre-commit.com/
 
-- id: shellcheck
-  name: Shellcheck Bash Linter
-  description: Performs linting on bash scripts
-  entry: hooks/shellcheck.sh
+- id: tf-compliance
+  name: Terraform-compliance
+  description: Run terrafrom-compliance
+  entry: hooks/tf_compliance.sh
   language: script
-
-- id: helmlint
-  name: helmlint
-  description: Run helm lint, a linter for helm charts
-  entry: hooks/helmlint.sh
-  language: script
-  files: \.((ya?ml)|(tpl))$
-  
-  
-- id: helmfilelint
-  name: helmfilelint
-  description: Run helmfile lint, a linter for helmfile
-  entry: hooks/helmfilelint.sh
-  language: script
-  files: \.((ya?ml)|(tpl))$
